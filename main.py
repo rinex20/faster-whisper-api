@@ -16,19 +16,6 @@ app = FastAPI()
 
 security = HTTPBearer()
 
-class ModelCard(BaseModel):
-    id: str
-    object: str = "model"
-    created: int = Field(default_factory=lambda: int(time.time()))
-    owned_by: str = "owner"
-    root: Optional[str] = None
-    parent: Optional[str] = None
-    permission: Optional[list] = None
-
-
-class ModelList(BaseModel):
-    object: str = "list"
-    data: List[ModelCard] = []
 
 # Initialize the model variable
 model = None
@@ -62,12 +49,6 @@ def offload_check():
 
 # Start the offload check in a separate thread
 threading.Thread(target=offload_check, daemon=True).start()
-
-@app.get("/v1/models", response_model=ModelList)
-async def list_models():
-    global model_args
-    model_card = ModelCard(id="whisper-1") #
-    return ModelList(data=[model_card])
 
 @app.post("/v1/audio/transcriptions")
 async def create_transcription(
