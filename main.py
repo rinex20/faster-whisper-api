@@ -53,7 +53,7 @@ threading.Thread(target=offload_check, daemon=True).start()
 @app.get("/v1/models", response_model=ModelList)
 async def list_models():
     global model_args
-    model_card = ModelCard(id="whisper-1")
+    model_card = ModelCard(id="whisper-1") #
     return ModelList(data=[model_card])
 
 @app.post("/v1/audio/transcriptions")
